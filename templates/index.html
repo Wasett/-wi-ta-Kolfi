@@ -1,13 +1,37 @@
-<!DOCTYPE html>  
+<!DOCTYPE html> 
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KOLFI LOSOWANIE PREZENTÓW 2025🎁</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            color: black; /* cała czcionka na czarno */
+            font-family: Arial, sans‑serif;
+        }
+
+        /* 🔹 Usunięcie kropek (punktorów) z listy */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-left: 0;
+        }
+    </style>
 </head>
 <body>
     <h1>KOLFI LOSOWANIE PREZENTÓW 2025🎁</h1>
+
+    <!-- Wyświetlanie komunikatów flash -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 
     <!-- Panel losowania -->
     <div id="draw-panel">
@@ -20,20 +44,29 @@
                 {% endfor %}
             </select>
             <br>
-            <button type="submit">Losuj 🎁</button>
+            <button type="submit">Losuj 🎁</button>  <!-- zmienione emoji na prezent -->
         </form>
-
-        <!-- Lista w panelu -->
-        <ul>
-            {% for p in participants %}
-              <li>{{ p.name }}{% if p.id in results %} – wylosował: {{ results[p.id] }}{% endif %}</li>
-            {% endfor %}
-        </ul>
     </div>
 
+    <!-- Lista uczestników -->
+    <h2>Uczestnicy</h2>
+    <ul>
+        {% for p in participants %}
+            <li>
+                {{ p.name }}
+                {% if p.id in results %}
+                    <span class="draw-result">– wylosował: {{ results[p.id] }}</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
     <h3>Prezenty do 100 zł🎁</h3>
+
+    <!-- Ikonka logowania admina -->
     <a href="{{ url_for('admin_login') }}" id="admin-login-btn" title="Zaloguj jako administrator">🎅</a>
 
+    <!-- Efekt śniegu -->
     <div id="snow-container"></div>
     <script src="{{ url_for('static', filename='snow.js') }}"></script>
 </body>
