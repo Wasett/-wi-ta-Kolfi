@@ -64,7 +64,7 @@ h1 {
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    background-color: transparent;
+    background-color: #1E3A5F;
     color: #fff;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
@@ -148,3 +148,4 @@ ul.participants li,
     text-decoration: none;
     color: #ffcc00;
 }
+
