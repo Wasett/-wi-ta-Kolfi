@@ -25,7 +25,7 @@ h1 {
     text-shadow: 2px 2px 5px #000;
 }
 
-/* Panel losowania – bardziej przezroczysty + efekt szkła */
+/* Panel losowania – kolor inspirowany sańkami Mikołaja, przezroczysty tło */
 #draw-panel {
     margin: 40px auto;
     padding: 20px;
@@ -38,33 +38,33 @@ h1 {
     backdrop-filter: blur(6px);
 }
 
-/* Lista rozwijana – półprzezroczysta i elegancka */
+/* Lista rozwijana – półprzezroczysta szara */
 #participant {
     font-size: 1.2em;
     padding: 8px;
     width: 90%;
-    background: rgba(255, 239, 197, 0.75);
-    border: 2px solid rgba(255, 77, 77, 0.7);
+    background: rgba(128, 128, 128, 0.6); /* szary, półprzezroczysty */
+    border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 10px;
-    color: #000;
+    color: #fff; /* biały tekst dla kontrastu */
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     backdrop-filter: blur(3px);
     margin: 0 auto;
 }
 
 #participant option {
-    background-color: rgba(255,247,230,0.9);
-    color: #000;
+    background-color: rgba(50, 50, 50, 0.9);
+    color: #fff;
 }
 
-/* Styl przycisku „Losuj” – tło transparentne */
+/* Styl przycisku „Losuj” – tło takie jak kolor tła strony (transparentny efekt) */
 #draw-panel button {
     margin-top: 10px;
     font-size: 1.2em;
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    background-color: #1E3A5F;
+    background-color: #1E3A5F; /* granatowy tła sań */
     color: #fff;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
@@ -101,7 +101,7 @@ ul.participants li,
     color: #000;
 }
 
-/* Efekt „wylosowałeś” */
+/* Styl dla napisu „wylosowałeś” z animacją */
 .draw-result {
     font-size: 3em;
     color: black;
@@ -148,4 +148,3 @@ ul.participants li,
     text-decoration: none;
     color: #ffcc00;
 }
-
