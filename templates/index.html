@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Świąteczne Losowanie Prezentów</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Świąteczne Losowanie Prezentów 🎁</h1>
+
+    <!-- Panel losowania -->
+    <div id="draw-panel">
+        <label for="participant">Wybierz swoje imię:</label>
+        <select id="participant">
+            <option value="">-- Wybierz --</option>
+            <option value="Ania">Ania</option>
+            <option value="Bartek">Bartek</option>
+            <option value="Cezary">Cezary</option>
+            <option value="Dorota">Dorota</option>
+            <option value="Ewa">Ewa</option>
+        </select>
+        <br>
+        <button id="draw-btn">Losuj 🎅</button>
+        <h2 id="result"></h2>
+    </div>
+
+    <!-- Lista uczestników -->
+    <ul id="participants-list">
+        <li>Ania</li>
+        <li>Bartek</li>
+        <li>Cezary</li>
+        <li>Dorota</li>
+        <li>Ewa</li>
+    </ul>
+
+    <!-- Efekt śniegu -->
+    <div id="snow-container"></div>
+
+    <!-- Ikonka logowania admina -->
+    <a href="/admin" id="admin-login-btn" title="Zaloguj jako administrator">🎅</a>
+
+    <script src="script.js"></script>
+</body>
+</html>

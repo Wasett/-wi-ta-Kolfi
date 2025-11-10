@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Edytuj uczestników - Losowanie Świąteczne</title>
+</head>
+<body>
+<h1>Edytuj listę uczestników - Losowanie Świąteczne</h1>
+
+<h2>Aktualni uczestnicy:</h2>
+<ul>
+    {% for p in participants %}
+    <li>{{ p.name }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Dodaj nowego uczestnika:</h2>
+<form method="post">
+    <input type="text" name="new_name" placeholder="Imię" required>
+    <input type="submit" value="Dodaj">
+</form>
+
+<br>
+<a href="/admin">Powrót do panelu admina</a>
+</body>
+</html>

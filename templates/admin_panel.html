@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel administratora</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='snow.js') }}"></script>
+</head>
+<body>
+    <div id="snow-container"></div>
+    <h1>Panel administratora 🔒</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <h2>Dodaj nowego uczestnika</h2>
+    <form method="POST">
+        <input type="text" name="new_participant" placeholder="Imię" required>
+        <button type="submit">Dodaj</button>
+    </form>
+
+    <h2>Uczestnicy</h2>
+    <ul>
+        {% for p in participants %}
+        <li>{{ p.name }} {% if p.id in results %}- wylosował: {{ results[p.id] }}{% endif %}</li>
+        {% endfor %}
+    </ul>
+
+    <p>
+        <a href="{{ url_for('admin_reset') }}">Resetuj losowanie</a> |
+        <a href="{{ url_for('admin_logout') }}">Wyloguj</a>
+    </p>
+</body>
+</html>
