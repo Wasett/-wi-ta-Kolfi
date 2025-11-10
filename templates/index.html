@@ -41,23 +41,19 @@
         </form>
     </div>
 
-    <!-- Lista uczestników -->
+
+ <!-- Lista uczestników -->
     <h2>Uczestnicy</h2>
     <ul>
         {% for p in participants %}
-            <li>
-                {{ p.name }}
-                {% if p.id in results %}
-                    <span style="color: black;">
-                        wylosowałeś 
-                        <span style="font-size: 4em;">{{ results[p.id] }}</span>
+            <li>{{ p.name }}{% if p.id in results %} - wylosował: {{ results[p.id] }}{% endif %}</li>
+         <span style="color: black;">
                     </span>
-                {% else %}
-                    <span style="color: black; font-size: 2em;">Nie wylosowałeś</span>
-                {% endif %}
-            </li>
         {% endfor %}
     </ul>
+
+
+    
 
     <h3>Prezenty do 100 zł🎁</h3>
     <!-- Ikonka logowania admina -->
@@ -68,3 +64,4 @@
     <script src="{{ url_for('static', filename='snow.js') }}"></script>
 </body>
 </html>
+
