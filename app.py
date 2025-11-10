@@ -118,7 +118,7 @@ def admin_panel():
             flash(f'Dodano uczestnika: {new_name}')
         return redirect(url_for('admin_panel'))
 
-    # Pokazujemy aktualne wyniki
+    # Przygotowanie danych do wyświetlenia w tabeli
     display_results = []
     for p in participants:
         display_results.append({
@@ -126,7 +126,7 @@ def admin_panel():
             'drawn': results.get(p['id'], None)
         })
 
-    return render_template('admin_panel.html', participants=participants, results=display_results)
+    return render_template('admin_panel.html', results=display_results)
 
 
 # ---------------- Resetowanie losowania ----------------
@@ -155,4 +155,3 @@ def admin_logout():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  # Render ustawia PORT automatycznie
     app.run(host="0.0.0.0", port=port, debug=True)
-
