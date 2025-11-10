@@ -11,19 +11,29 @@
             color: #000; /* czarna czcionka domyślnie */
         }
         .result‑box {
-            border: 3px solid #000;    /* czarna ramka */
+            border: 3px solid #000;
             padding: 20px;
             margin: 30px auto;
-            max-width: 500px;
-            background: #fff;           /* białe tło dla kontrastu */
-            display: block;
-            text‑align: center;
+            max-width: 600px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
         }
-        .result‑box .result‑name {
-            font-size: 3em;             /* bardzo duża czcionka */
+        .icon-left, .icon-right {
+            width: 80px;
+            height: auto;
+        }
+        .content {
+            flex: 1;
+            margin: 0 20px;
+        }
+        .result‑name {
+            font-size: 3em;
             color: #000;
-            font‑weight: bold;
-            margin: 0;
+            font-weight: bold;
+            margin: 10px 0 0 0;
         }
     </style>
 </head>
@@ -32,8 +42,16 @@
     <h1>Wynik losowania 🎁</h1>
 
     <div class="result‑box">
-        <p>Wylosowałeś:</p>
-        <p class="result‑name"><strong>{{ result_name }}</strong></p>
+        <!-- grafika prezentów po lewej -->
+        <img src="{{ url_for('static', filename='images/gift‑box.png') }}" alt="Prezenty" class="icon-left">
+        
+        <div class="content">
+            <p>Wylosowałeś:</p>
+            <p class="result‑name"><strong>{{ result_name }}</strong></p>
+        </div>
+
+        <!-- grafika choinki po prawej -->
+        <img src="{{ url_for('static', filename='images/christmas‑tree.png') }}" alt="Choinka" class="icon-right">
     </div>
 
     <p><a href="{{ url_for('index') }}">Wróć do losowania</a></p>
