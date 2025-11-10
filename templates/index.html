@@ -10,6 +10,13 @@
             color: black; /* cała czcionka na czarno */
             font-family: Arial, sans-serif;
         }
+
+        /* 🔹 Usunięcie kropek (punktorów) z listy */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-left: 0;
+        }
     </style>
 </head>
 <body>
@@ -41,21 +48,17 @@
         </form>
     </div>
 
-
- <!-- Lista uczestników -->
+    <!-- Lista uczestników -->
     <h2>Uczestnicy</h2>
     <ul>
         {% for p in participants %}
             <li>{{ p.name }}{% if p.id in results %} - wylosował: {{ results[p.id] }}{% endif %}</li>
-         <span style="color: black;">
-                    </span>
+            <span style="color: black;"></span>
         {% endfor %}
     </ul>
 
-
-    
-
     <h3>Prezenty do 100 zł🎁</h3>
+
     <!-- Ikonka logowania admina -->
     <a href="{{ url_for('admin_login') }}" id="admin-login-btn" title="Zaloguj jako administrator">🎅</a>
 
@@ -64,4 +67,3 @@
     <script src="{{ url_for('static', filename='snow.js') }}"></script>
 </body>
 </html>
-
