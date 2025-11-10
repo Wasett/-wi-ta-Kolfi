@@ -53,7 +53,7 @@ h1 {
 }
 
 #participant option {
-    background-color: rgba(50, 50, 50, 0.9);
+     background-color: rgba(30, 58, 95, 0.55);
     color: #fff;
 }
 
@@ -148,4 +148,5 @@ ul.participants li,
     text-decoration: none;
     color: #ffcc00;
 }
+
 
