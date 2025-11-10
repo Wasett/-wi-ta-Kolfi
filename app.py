@@ -33,11 +33,15 @@ ADMIN_PASSWORD = 'jestok'
 
 # ---------------- Funkcje pomocnicze ----------------
 def load_results():
-    """Wczytuje wyniki z pliku JSON, jeśli istnieje."""
+    """Wczytuje wyniki z pliku JSON, jeśli istnieje i jest poprawny."""
     if os.path.exists(RESULTS_FILE):
-        with open(RESULTS_FILE, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-            return data.get('results', {}), set(data.get('already_drawn', []))
+        try:
+            with open(RESULTS_FILE, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data.get('results', {}), set(data.get('already_drawn', []))
+        except (json.JSONDecodeError, ValueError):
+            # Plik jest pusty lub uszkodzony — nadpisz pustym
+            return {}, set()
     return {}, set()
 
 
@@ -151,3 +155,4 @@ def admin_logout():
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))  # Render ustawia PORT automatycznie
     app.run(host="0.0.0.0", port=port, debug=True)
+
