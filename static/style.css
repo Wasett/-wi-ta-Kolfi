@@ -25,63 +25,62 @@ h1 {
     text-shadow: 2px 2px 5px #000;
 }
 
-/* Panel losowania – kolor inspirowany sańkami Mikołaja, przezroczysty tło */
+/* Panel losowania – bardziej przezroczysty + efekt szkła */
 #draw-panel {
     margin: 40px auto;
     padding: 20px;
-    background-color: rgba(30, 58, 95, 0.8);  /* #1E3A5F (kolor sań) + przezroczystość */
+    background-color: rgba(30, 58, 95, 0.55);
     border-radius: 15px;
     width: 90%;
     max-width: 400px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
     color: #fff;
+    backdrop-filter: blur(6px);
 }
 
-/* Świąteczne tło dla rozwijanej listy */
+/* Lista rozwijana – półprzezroczysta i elegancka */
 #participant {
     font-size: 1.2em;
-    padding: 5px;
+    padding: 8px;
     width: 90%;
-    background: linear-gradient(145deg, #ffefc5, #ffe0b3); /* jasny złoty gradient */
-    border: 2px solid #ff4d4d; /* czerwone obramowanie */
+    background: rgba(255, 239, 197, 0.75);
+    border: 2px solid rgba(255, 77, 77, 0.7);
     border-radius: 10px;
     color: #000;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    background-image: url('images/christmas_icons.png'); /* małe świąteczne ikony w tle */
-    background-repeat: repeat;
-    background-size: 30px 30px;
+    backdrop-filter: blur(3px);
     margin: 0 auto;
 }
 
 #participant option {
-    background-color: #fff7e6;
+    background-color: rgba(255,247,230,0.9);
     color: #000;
 }
 
-/* Styl przycisku „Losuj” – tło takie jak kolor tła strony (transparentny efekt) */
+/* Styl przycisku „Losuj” – tło transparentne */
 #draw-panel button {
     margin-top: 10px;
     font-size: 1.2em;
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    background-color: transparent;   /* tło jak tła strony */
-    color: #fff;                       /* tekst w kolorze tła strony – tutaj biały */
+    background-color: transparent;
+    color: #fff;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 #draw-panel button::after {
-    content: " 🎁";  /* emoji prezentu po prawej */
+    content: " 🎁";
 }
 
 #draw-panel button:hover {
-    background-color: rgba(255,255,255,0.2);  /* lekki efekt tła po najechaniu */
+    background-color: rgba(255,255,255,0.2);
     transform: scale(1.1);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Lista uczestników — bez kropek */
+/* Lista uczestników */
 ul.participants,
 #participants-list {
     list-style: none;
@@ -102,7 +101,7 @@ ul.participants li,
     color: #000;
 }
 
-/* Styl dla napisu „wylosowałeś” z animacją */
+/* Efekt „wylosowałeś” */
 .draw-result {
     font-size: 3em;
     color: black;
@@ -114,36 +113,15 @@ ul.participants li,
 }
 
 @keyframes reveal {
-    0% {
-        opacity: 0;
-        transform: scale(0.5) rotate(-10deg);
-        color: #a00;
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.2) rotate(2deg);
-        color: #000;
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-        color: #000;
-    }
+    0% { opacity: 0; transform: scale(0.5) rotate(-10deg); color: #a00; }
+    50% { opacity: 1; transform: scale(1.2) rotate(2deg); color: #000; }
+    100% { opacity: 1; transform: scale(1); color: #000; }
 }
 
 @keyframes sparkle {
-    0% {
-        transform: scale(1);
-        text-shadow: 0 0 0px #fff;
-    }
-    50% {
-        transform: scale(1.2);
-        text-shadow: 0 0 15px #fffa;
-    }
-    100% {
-        transform: scale(1);
-        text-shadow: 0 0 5px #fff;
-    }
+    0% { transform: scale(1); text-shadow: 0 0 0px #fff; }
+    50% { transform: scale(1.2); text-shadow: 0 0 15px #fffa; }
+    100% { transform: scale(1); text-shadow: 0 0 5px #fff; }
 }
 
 #snow-container {
