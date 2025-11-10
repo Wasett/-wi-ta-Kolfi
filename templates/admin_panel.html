@@ -13,7 +13,12 @@
             list-style: none;
             margin: 5px 0;
         }
-        .emoji‑gift {
+        .emoji-gift {
+            font-size: 1.2em;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .emoji-tree {
             font-size: 1.2em;
             margin-right: 8px;
             vertical-align: middle;
@@ -34,7 +39,7 @@
       {% endif %}
     {% endwith %}
 
-    <h2>Dodaj nowego uczestnika</h2>
+    <h2 style="color: black;">Dodaj nowego uczestnika</h2>
     <form method="POST">
         <input type="text" name="new_participant" placeholder="Imię" required>
         <button type="submit">Dodaj</button>
@@ -44,10 +49,14 @@
     <ul class="participants">
         {% for p in participants %}
             <li>
-                {% if p.id in results %}
-                    <span class="emoji‑gift">🎁</span>
+                {% if p.id not in results %}
+                    <span class="emoji-tree">🎄</span>
                 {% endif %}
-                {{ p.name }} {% if p.id in results %}- wylosował: {{ results[p.id] }}{% endif %}
+                {% if p.id in results %}
+                    <span class="emoji-gift">🎁</span>
+                {% endif %}
+                {{ p.name }}
+                {% if p.id in results %}- wylosował: {{ results[p.id] }}{% endif %}
             </li>
         {% endfor %}
     </ul>
