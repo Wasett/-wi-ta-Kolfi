@@ -3,44 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Świąteczne Losowanie Prezentów</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Świąteczne Losowanie Prezentów 🎁</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-
     <h1>Świąteczne Losowanie Prezentów 🎁</h1>
+
+    <!-- Wyświetlanie komunikatów flash -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 
     <!-- Panel losowania -->
     <div id="draw-panel">
-        <label for="participant">Wybierz swoje imię:</label>
-        <select id="participant">
-            <option value="">-- Wybierz --</option>
-            <option value="Ania">Ania</option>
-            <option value="Bartek">Bartek</option>
-            <option value="Cezary">Cezary</option>
-            <option value="Dorota">Dorota</option>
-            <option value="Ewa">Ewa</option>
-        </select>
-        <br>
-        <button id="draw-btn">Losuj 🎅</button>
-        <h2 id="result"></h2>
+        <form method="POST" action="{{ url_for('draw') }}">
+            <label for="participant">Wybierz swoje imię:</label>
+            <select id="participant" name="participant_id" required>
+                <option value="">-- Wybierz --</option>
+                {% for p in participants %}
+                    <option value="{{ p.id }}">{{ p.name }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <button type="submit">Losuj 🎅</button>
+        </form>
     </div>
 
     <!-- Lista uczestników -->
-    <ul id="participants-list">
-        <li>Ania</li>
-        <li>Bartek</li>
-        <li>Cezary</li>
-        <li>Dorota</li>
-        <li>Ewa</li>
+    <h2>Uczestnicy</h2>
+    <ul>
+        {% for p in participants %}
+            <li>{{ p.name }}{% if p.id in results %} - wylosował: {{ results[p.id] }}{% endif %}</li>
+        {% endfor %}
     </ul>
+
+    <!-- Ikonka logowania admina -->
+    <a href="{{ url_for('admin_login') }}" id="admin-login-btn" title="Zaloguj jako administrator">🎅</a>
 
     <!-- Efekt śniegu -->
     <div id="snow-container"></div>
-
-    <!-- Ikonka logowania admina -->
-    <a href="/admin" id="admin-login-btn" title="Zaloguj jako administrator">🎅</a>
-
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='snow.js') }}"></script>
 </body>
 </html>
