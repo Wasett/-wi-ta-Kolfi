@@ -3,12 +3,20 @@
 
 body {
     font-family: 'Baloo 2', cursive;
-    background: url('images/christmas_bg.jpg') no-repeat center center fixed;
+    background: url('images/christmas_bg_desktop.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #fff;
     text-align: center;
     margin: 0;
     padding: 0;
+}
+
+/* 📱 Tło dla urządzeń mobilnych */
+@media only screen and (max-width: 767px) {
+    body {
+        background: url('images/christmas_bg_mobile.jpg') no-repeat center center fixed;
+        background-size: cover;
+    }
 }
 
 h1 {
@@ -17,87 +25,91 @@ h1 {
     text-shadow: 2px 2px 5px #000;
 }
 
+/* Panel losowania – kolor inspirowany sańkami Mikołaja */
 #draw-panel {
     margin: 40px auto;
     padding: 20px;
-    background-color: rgba(0,0,0,0.6);
+    background-color: #1E3A5F;
     border-radius: 15px;
     width: 400px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-/* 🔹 Świąteczne tło dla rozwijanej listy */
+/* Świąteczne tło dla rozwijanej listy */
 #participant {
     font-size: 1.2em;
     padding: 5px;
     width: 90%;
-    background: linear-gradient(145deg, #ffefc5, #ffe0b3); /* jasny złoty gradient */
-    border: 2px solid #ff4d4d; /* czerwone obramowanie */
+    background: linear-gradient(145deg, #ffefc5, #ffe0b3);
+    border: 2px solid #ff4d4d;
     border-radius: 10px;
-    color: #000; /* tekst na czarno */
+    color: #000;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    background-image: url('images/christmas_icons.png'); /* małe świąteczne ikony w tle */
+    background-image: url('images/christmas_icons.png');
     background-repeat: repeat;
     background-size: 30px 30px;
 }
 
 #participant option {
-    background-color: #fff7e6; /* delikatny kremowy kolor opcji */
+    background-color: #fff7e6;
     color: #000;
 }
 
-/* 🔹 Styl przycisku losuj z kolorem sań Mikołaja i animacją */
+/* Styl przycisku losuj z kolorem sań i animacją */
 #draw-panel button {
     margin-top: 10px;
     font-size: 1.2em;
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    background-color: #1E3A5F;      /* kolor sań Mikołaja */
-    color: #fff;                     /* tekst na białym kolorze dla kontrastu */
+    background-color: #1E3A5F;
+    color: #fff;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 #draw-panel button::after {
-    content: " 🎁"; /* emoji prezentu po prawej stronie */
+    content: " 🎁";
 }
 
 #draw-panel button:hover {
-    background-color: #16324f;      /* ciemniejszy odcień dla efektu hover */
+    background-color: #16324f;
     transform: scale(1.1);
     box-shadow: 0 8px 20px rgba(0, 0, 50, 0.5);
 }
 
-/* 🔹 Ramka z uczestnikami — świąteczny styl listy */
+/* Lista uczestników — bez kropek */
 ul.participants,
 #participants-list {
-    border: 3px solid #1E3A5F; /* ciemnogranatowy, kolor inspirowany sańkami */
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    border: 3px solid #1E3A5F;
     border-radius: 12px;
     padding: 15px;
     max-width: 400px;
     margin: 20px auto;
-    background-color: rgba(255,255,255,0.9); /* jaśniejsze tło dla kontrastu */
+    background-color: rgba(255,255,255,0.9);
 }
 
 ul.participants li,
 #participants-list li {
     font-size: 1.3em;
     margin: 5px 0;
-    color: #000; /* tekst na czarno */
+    color: #000;
 }
 
-/* 🔹 Styl dla napisu "wylosowałeś" z animacją */
+/* Styl dla napisu "wylosowałeś" z animacją */
 .draw-result {
-    font-size: 3em;          /* bardzo duża czcionka */
-    color: black;            /* czarny kolor tekstu */
+    font-size: 3em;
+    color: black;
     font-weight: bold;
-    display: block;          /* w nowej linii */
+    display: block;
     margin-top: 10px;
     animation: reveal 1.2s ease-out forwards, sparkle 0.8s ease-out 1.2s forwards;
     opacity: 0;
 }
 
-/* 🔹 Animacja pojawiania się napisu */
 @keyframes reveal {
     0% {
         opacity: 0;
@@ -116,7 +128,6 @@ ul.participants li,
     }
 }
 
-/* 🔹 Animacja podskoku i lekkiego błysku po reveal */
 @keyframes sparkle {
     0% {
         transform: scale(1);
