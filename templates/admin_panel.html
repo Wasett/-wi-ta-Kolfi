@@ -5,6 +5,20 @@
     <title>Panel administratora</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='snow.js') }}"></script>
+    <style>
+        ul.participants {
+            color: #000; /* czarny kolor tekstu w liście uczestników */
+        }
+        ul.participants li {
+            list-style: none;
+            margin: 5px 0;
+        }
+        .emoji‑gift {
+            font-size: 1.2em;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
     <div id="snow-container"></div>
@@ -27,9 +41,14 @@
     </form>
 
     <h2>Uczestnicy</h2>
-    <ul>
+    <ul class="participants">
         {% for p in participants %}
-        <li>{{ p.name }} {% if p.id in results %}- wylosował: {{ results[p.id] }}{% endif %}</li>
+            <li>
+                {% if p.id in results %}
+                    <span class="emoji‑gift">🎁</span>
+                {% endif %}
+                {{ p.name }} {% if p.id in results %}- wylosował: {{ results[p.id] }}{% endif %}
+            </li>
         {% endfor %}
     </ul>
 
