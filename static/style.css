@@ -45,15 +45,15 @@ h1 {
     color: #000;
 }
 
-/* 🔹 Styl przycisku losuj z emoji prezentu i animacją */
+/* 🔹 Styl przycisku losuj z kolorem sań Mikołaja i animacją */
 #draw-panel button {
     margin-top: 10px;
     font-size: 1.2em;
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    background-color: #ff4d4d;
-    color: #fff;
+    background-color: #1E3A5F;      /* kolor sań Mikołaja */
+    color: #fff;                     /* tekst na białym kolorze dla kontrastu */
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
@@ -63,9 +63,9 @@ h1 {
 }
 
 #draw-panel button:hover {
-    background-color: #ff1a1a;
+    background-color: #16324f;      /* ciemniejszy odcień dla efektu hover */
     transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.5);
+    box-shadow: 0 8px 20px rgba(0, 0, 50, 0.5);
 }
 
 /* 🔹 Ramka z uczestnikami — świąteczny styl listy */
@@ -141,4 +141,18 @@ ul.participants li,
     pointer-events: none;
 }
 
-.sno
+.snowflake {
+    position: absolute;
+    color: #fff;
+    user-select: none;
+    z-index: 9999;
+}
+
+#admin-login-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 2.5em;
+    text-decoration: none;
+    color: #ffcc00;
+}
