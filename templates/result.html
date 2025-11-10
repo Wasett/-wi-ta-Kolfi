@@ -5,16 +5,37 @@
     <title>Wynik losowania</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='snow.js') }}"></script>
+    <style>
+        body {
+            font-family: Arial, sans‑serif;
+            color: #000; /* czarna czcionka domyślnie */
+        }
+        .result‑box {
+            border: 3px solid #000;    /* czarna ramka */
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 500px;
+            background: #fff;           /* białe tło dla kontrastu */
+            display: block;
+            text‑align: center;
+        }
+        .result‑box .result‑name {
+            font-size: 3em;             /* bardzo duża czcionka */
+            color: #000;
+            font‑weight: bold;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    {
-            color: black; /* cała czcionka na czarno */
-            font-family: Arial, sans-serif;
-        }
     <div id="snow-container"></div>
     <h1>Wynik losowania 🎁</h1>
-    <p>Wylosowałeś: <strong>{{ result_name }}</strong></p>
+
+    <div class="result‑box">
+        <p>Wylosowałeś:</p>
+        <p class="result‑name"><strong>{{ result_name }}</strong></p>
+    </div>
+
     <p><a href="{{ url_for('index') }}">Wróć do losowania</a></p>
 </body>
 </html>
-
