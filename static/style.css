@@ -25,10 +25,24 @@ h1 {
     width: 400px;
 }
 
+/* 🔹 Świąteczne tło dla rozwijanej listy */
 #participant {
     font-size: 1.2em;
     padding: 5px;
     width: 90%;
+    background: linear-gradient(145deg, #ffefc5, #ffe0b3); /* jasny złoty gradient */
+    border: 2px solid #ff4d4d; /* czerwone obramowanie */
+    border-radius: 10px;
+    color: #000; /* tekst na czarno */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    background-image: url('images/christmas_icons.png'); /* małe świąteczne ikony w tle */
+    background-repeat: repeat;
+    background-size: 30px 30px; 
+}
+
+#participant option {
+    background-color: #fff7e6; /* delikatny kremowy kolor opcji */
+    color: #000;
 }
 
 /* 🔹 Styl przycisku losuj z emoji prezentu i animacją */
