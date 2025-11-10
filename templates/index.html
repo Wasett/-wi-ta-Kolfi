@@ -52,8 +52,12 @@
     <h2>Uczestnicy</h2>
     <ul>
         {% for p in participants %}
-            <li>{{ p.name }}{% if p.id in results %} - wylosował: {{ results[p.id] }}{% endif %}</li>
-            <span style="color: black;"></span>
+            <li>
+                {{ p.name }}
+                {% if p.id in results %}
+                    <span class="draw-result">– wylosował: {{ results[p.id] }}</span>
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
 
@@ -67,4 +71,3 @@
     <script src="{{ url_for('static', filename='snow.js') }}"></script>
 </body>
 </html>
-
