@@ -31,7 +31,8 @@ h1 {
     width: 90%;
 }
 
-button {
+/* 🔹 Styl przycisku losuj z emoji prezentu i animacją */
+#draw-panel button {
     margin-top: 10px;
     font-size: 1.2em;
     padding: 10px 20px;
@@ -40,11 +41,17 @@ button {
     background-color: #ff4d4d;
     color: #fff;
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
-button:hover {
+#draw-panel button::after {
+    content: " 🎁"; /* emoji prezentu po prawej stronie */
+}
+
+#draw-panel button:hover {
     background-color: #ff1a1a;
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.5);
 }
 
 /* 🔹 Lista uczestników — bez kropek */
