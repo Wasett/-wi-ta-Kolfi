@@ -25,17 +25,18 @@ h1 {
     text-shadow: 2px 2px 5px #000;
 }
 
-/* Panel losowania – kolor inspirowany sańkami Mikołaja */
+/* Panel losowania – kolor inspirowany sańkami Mikołaja, przezroczysty tło */
 #draw-panel {
     margin: 40px auto;
     padding: 20px;
-    background-color: #1E3A5F;
+    background-color: rgba(30, 58, 95, 0.8);  /* #1E3A5F + przezroczystość */
     border-radius: 15px;
     width: 400px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    color: #fff;
 }
 
-/* Świąteczne tło dla rozwijanej listy */
+/* Rozwijana lista w panelu losowania – tło świąteczne */
 #participant {
     font-size: 1.2em;
     padding: 5px;
@@ -55,27 +56,27 @@ h1 {
     color: #000;
 }
 
-/* Styl przycisku losuj z kolorem sań i animacją */
+/* 🔹 Przycisk „Losuj” – tło takie jak kolor tła strony (transparentny efekt) */
 #draw-panel button {
     margin-top: 10px;
     font-size: 1.2em;
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
-    background-color: #1E3A5F;
-    color: #fff;
+    background-color: transparent;   /* tło jak tła strony */
+    color: #fff;                       /* tekst w kolorze tła strony – tutaj biały */
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 #draw-panel button::after {
-    content: " 🎁";
+    content: " 🎁";  /* emoji prezentu po prawej */
 }
 
 #draw-panel button:hover {
-    background-color: #16324f;
+    background-color: rgba(255,255,255,0.2);  /* lekki efekt tła po najechaniu */
     transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(0, 0, 50, 0.5);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Lista uczestników — bez kropek */
@@ -99,7 +100,7 @@ ul.participants li,
     color: #000;
 }
 
-/* Styl dla napisu "wylosowałeś" z animacją */
+/* Styl dla napisu „wylosowałeś” z animacją */
 .draw-result {
     font-size: 3em;
     color: black;
