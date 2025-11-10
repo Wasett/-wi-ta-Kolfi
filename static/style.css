@@ -62,8 +62,8 @@ ul {
 
 /* 🔹 Styl dla napisu "wylosowałeś" z animacją */
 .draw-result {
-    font-size: 2em;          /* około 4x większy */
-    color: black;            /* czarny napis */
+    font-size: 3em;          /* bardzo duża czcionka */
+    color: black;            /* czarny kolor tekstu */
     font-weight: bold;
     display: block;          /* w nowej linii */
     margin-top: 10px;
