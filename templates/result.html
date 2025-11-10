@@ -5,11 +5,41 @@
     <title>Wynik losowania</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='snow.js') }}"></script>
+    <style>
+        /* Jeśli CSS zewnętrzny nie zawiera klasy, można tu dodać podręcznie */
+        .result‑highlight {
+            color: black;
+            font-size: 4em;        /* bardzo duża czcionka */
+            font-weight: bold;
+            display: block;
+            margin: 20px 0;
+            opacity: 0;
+            animation: bounceIn 1s ease‑out forwards;
+        }
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3) translateY(100px);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.2) translateY(-20px);
+                opacity: 1;
+            }
+            80% {
+                transform: scale(0.9) translateY(10px);
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="snow-container"></div>
     <h1>Wynik losowania 🎁</h1>
-    <p>Wylosowałeś: <strong>{{ result_name }}</strong></p>
+    <p>Wylosowałeś:</p>
+    <p class="result‑highlight"><strong>{{ result_name }}</strong></p>
     <p><a href="{{ url_for('index') }}">Wróć do losowania</a></p>
 </body>
 </html>
