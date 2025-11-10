@@ -36,7 +36,7 @@
     <!-- Panel losowania -->
     <div id="draw-panel">
         <form method="POST" action="{{ url_for('draw') }}">
-            <label for="participant">Wybierz swoje imię:</label>
+            <label for="participant" style="color: #fff;">Wybierz swoje imię:</label>
             <select id="participant" name="participant_id" required>
                 <option value="">-- Wybierz --</option>
                 {% for p in participants %}
@@ -67,3 +67,4 @@
     <script src="{{ url_for('static', filename='snow.js') }}"></script>
 </body>
 </html>
+
