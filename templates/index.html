@@ -17,6 +17,29 @@
             padding-left: 0;
             margin-left: 0;
         }
+
+        /* 🔹 Ramka listy uczestników w kolorze sań */
+        ul.participants,
+        ul {
+            border: 3px solid #1E3A5F; /* kolor sań z obrazka */
+            border-radius: 12px;
+            padding: 15px;
+            max-width: 400px;
+            margin: 20px auto;
+            background-color: transparent; /* przezroczyste tło */
+        }
+
+        /* 🔹 Kolor napisów w li (imiona) taki jak tło */
+        ul li {
+            color: #fff; /* jasny kolor tła z obrazka */
+            font-size: 1.3em;
+            margin: 5px 0;
+        }
+
+        /* 🔹 Napis "wylosował" czarny, dla kontrastu */
+        .draw-result {
+            color: black;
+        }
     </style>
 </head>
 <body>
