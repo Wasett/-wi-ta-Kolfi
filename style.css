@@ -1,0 +1,156 @@
+/* ---------------- Google Fonts ---------------- */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&display=swap');
+
+/* ---------------- Ogólne ---------------- */
+body {
+    font-family: 'Baloo 2', cursive;
+
+    /* Świąteczne tło lokalne */
+    background: url('/static/images/christmas_bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+
+    color: #ecf0f1;
+    text-align: center;
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: 50px;
+}
+
+/* ---------------- Nagłówki ---------------- */
+h1 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    font-size: 48px;
+    color: #e74c3c;
+    text-shadow: 3px 3px 7px #fff;
+    margin-top: 50px;
+}
+
+/* ---------------- Formularze ---------------- */
+label {
+    font-size: 28px;
+    margin-right: 20px;
+}
+
+select, input[type="text"], input[type="password"] {
+    padding: 16px;
+    font-size: 24px;
+    border-radius: 10px;
+    border: none;
+    min-width: 250px;
+    font-family: 'Baloo 2', cursive;
+}
+
+/* ---------------- Przyciski ---------------- */
+button {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 700;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 18px 36px;
+    cursor: pointer;
+    font-size: 24px;
+    margin-top: 20px;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #fff;
+}
+
+.admin-btn {
+    background-color: #f39c12;
+    margin-bottom: 25px;
+}
+
+/* ---------------- Lista uczestników ---------------- */
+ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 25px;
+}
+
+ul li {
+    margin: 12px 0;
+    font-size: 24px;
+    font-family: 'Baloo 2', cursive;
+}
+
+ul li::before {
+    content: "🎁 ";
+}
+
+/* ---------------- Śnieg ---------------- */
+#snow-container {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.snowflake {
+    position: absolute;
+    top: -50px;
+    color: white;
+    user-select: none;
+    animation-name: fall;
+    animation-timing-function: linear;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+    }
+}
+
+/* ---------------- Przycisk logowania admina ---------------- */
+#admin-login-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 40px;
+    text-decoration: none;
+    color: #f39c12;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 14px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s, box-shadow 0.2s, color 0.2s;
+    z-index: 10000;
+}
+
+#admin-login-btn:hover {
+    transform: scale(1.2);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+    color: #e74c3c;
+}
+
+/* ---------------- Responsywność ---------------- */
+@media (max-width: 600px) {
+    select, input[type="text"], input[type="password"], button {
+        width: 95%;
+        font-size: 20px;
+        padding: 14px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    ul li {
+        font-size: 20px;
+    }
+
+    #admin-login-btn {
+        font-size: 32px;
+        padding: 8px 10px;
+    }
+}
