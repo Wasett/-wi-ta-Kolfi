@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import random
+import os
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey123'
@@ -10,17 +11,16 @@ participants = [
     {'id': 2, 'name': 'Seba'},
     {'id': 3, 'name': 'Sylwek'},
     {'id': 4, 'name': 'Sylwia'},
-	{'id': 5, 'name': 'Martyna'},
+    {'id': 5, 'name': 'Martyna'},
     {'id': 6, 'name': 'Agnieszka'},
     {'id': 7, 'name': 'Mariusz'},
     {'id': 8, 'name': 'Jasia'},
-{'id': 9, 'name': 'Gosia'},
+    {'id': 9, 'name': 'Gosia'},
     {'id': 10, 'name': 'Danuta'},
     {'id': 11, 'name': 'Jarek'},
     {'id': 12, 'name': 'Lidia'},
- {'id': 13, 'name': 'Bartek'},
+    {'id': 13, 'name': 'Bartek'},
     {'id': 14, 'name': 'Monika'}
-	
 ]
 
 # ---------------- Wyniki losowania ----------------
@@ -107,4 +107,5 @@ def admin_logout():
 
 # ---------------- Uruchomienie serwera ----------------
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render ustawia PORT automatycznie
+    app.run(host="0.0.0.0", port=port, debug=True)
