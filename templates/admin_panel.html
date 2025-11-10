@@ -6,65 +6,150 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='snow.js') }}"></script>
     <style>
-        ul.participants {
-            color: #000; /* czarny kolor tekstu w liście uczestników */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f8f8f8;
+            color: #222;
+            text-align: center;
         }
-        ul.participants li {
-            list-style: none;
-            margin: 5px 0;
+
+        h1 {
+            color: #333;
         }
+
+        .admin-container {
+            max-width: 700px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            width: 200px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #1b7b3f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #155d2f;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .drawn {
+            color: green;
+            font-weight: bold;
+        }
+
+        .not-drawn {
+            color: gray;
+            font-style: italic;
+        }
+
         .emoji-gift {
             font-size: 1.2em;
-            margin-right: 8px;
-            vertical-align: middle;
+            margin-right: 5px;
         }
+
         .emoji-tree {
             font-size: 1.2em;
-            margin-right: 8px;
-            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .links {
+            margin-top: 20px;
+        }
+
+        .links a {
+            color: #1b7b3f;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div id="snow-container"></div>
-    <h1>Panel administratora 🔒</h1>
+    <div class="admin-container">
+        <h1>Panel administratora 🔒</h1>
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
 
-    <h2 style="color: black;">Dodaj nowego uczestnika</h2>
-    <form method="POST">
-        <input type="text" name="new_participant" placeholder="Imię" required>
-        <button type="submit">Dodaj</button>
-    </form>
+        <h2>Dodaj nowego uczestnika</h2>
+        <form method="POST">
+            <input type="text" name="new_participant" placeholder="Imię" required>
+            <button type="submit">➕ Dodaj</button>
+        </form>
 
-    <h2 style="color: black;">UCZESTNICY</h2>
-    <ul class="participants">
-        {% for p in participants %}
-            <li>
-                {% if p.id not in results %}
-                    <span class="emoji-tree">🎄</span>
-                {% endif %}
-                {% if p.id in results %}
-                    <span class="emoji-gift">🎁</span>
-                {% endif %}
-                {{ p.name }}
-                {% if p.id in results %}- wylosował: {{ results[p.id] }}{% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+        <h2>Lista uczestników 🎅</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Uczestnik</th>
+                    <th>Status</th>
+                    <th>Wylosował</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in results %}
+                    <tr>
+                        <td>{{ p.name }}</td>
+                        {% if p.drawn %}
+                            <td class="drawn"><span class="emoji-gift">🎁</span>Wylosował</td>
+                            <td>{{ p.drawn }}</td>
+                        {% else %}
+                            <td class="not-drawn"><span class="emoji-tree">🎄</span>Nie losował</td>
+                            <td>-</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <p>
-        <a href="{{ url_for('admin_reset') }}">Resetuj losowanie</a> |
-        <a href="{{ url_for('admin_logout') }}">Wyloguj</a>
-    </p>
+        <div class="links">
+            <a href="{{ url_for('admin_reset') }}">🔄 Resetuj losowanie</a> |
+            <a href="{{ url_for('admin_logout') }}">🚪 Wyloguj</a>
+        </div>
+    </div>
 </body>
 </html>
-
