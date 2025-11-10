@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KOLFI LOSOWANIE PREZENTÓW 2025🎁</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            color: black; /* cała czcionka na czarno */
+            font-family: Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
     <h1>KOLFI LOSOWANIE PREZENTÓW 2025🎁</h1>
@@ -39,7 +45,17 @@
     <h2>Uczestnicy</h2>
     <ul>
         {% for p in participants %}
-            <li>{{ p.name }}{% if p.id in results %} - wylosował: {{ results[p.id] }}{% endif %}</li>
+            <li>
+                {{ p.name }}
+                {% if p.id in results %}
+                    <span style="color: black;">
+                        wylosowałeś 
+                        <span style="font-size: 4em;">{{ results[p.id] }}</span>
+                    </span>
+                {% else %}
+                    <span style="color: black; font-size: 2em;">Nie wylosowałeś</span>
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
 
@@ -52,5 +68,3 @@
     <script src="{{ url_for('static', filename='snow.js') }}"></script>
 </body>
 </html>
-
-
