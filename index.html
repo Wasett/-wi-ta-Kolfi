@@ -1,37 +1,46 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Secret Santa 🎄</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Świąteczne Losowanie Prezentów</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="snow-container"></div>
 
-  <h1>🎅 ŚWIĘTA KOLFI 2025 🎁</h1>
+    <h1>Świąteczne Losowanie Prezentów 🎁</h1>
 
-  <!-- Przycisk logowania admina -->
-  <div style="margin-bottom: 20px;">
-    <a href="{{ url_for('admin_login') }}">
-      <button class="admin-btn">Zaloguj jako Administrator</button>
-    </a>
-  </div>
+    <!-- Panel losowania -->
+    <div id="draw-panel">
+        <label for="participant">Wybierz swoje imię:</label>
+        <select id="participant">
+            <option value="">-- Wybierz --</option>
+            <option value="Ania">Ania</option>
+            <option value="Bartek">Bartek</option>
+            <option value="Cezary">Cezary</option>
+            <option value="Dorota">Dorota</option>
+            <option value="Ewa">Ewa</option>
+        </select>
+        <br>
+        <button id="draw-btn">Losuj 🎅</button>
+        <h2 id="result"></h2>
+    </div>
 
-  {% if message %}
-    <p style="color:red;">{{ message }}</p>
-  {% endif %}
+    <!-- Lista uczestników -->
+    <ul id="participants-list">
+        <li>Ania</li>
+        <li>Bartek</li>
+        <li>Cezary</li>
+        <li>Dorota</li>
+        <li>Ewa</li>
+    </ul>
 
-  <form method="POST" id="draw-form">
-    <label>Wybierz swoje imię:</label>
-    <select name="participant" required>
-      <option value="" disabled selected>-- Wybierz imię --</option>
-      {% for p in participants %}
-      <option value="{{ p.id }}">{{ p.name }}</option>
-      {% endfor %}
-    </select>
-    <button type="submit" id="draw-btn">Losuj prezent 🎁</button>
-  </form>
+    <!-- Efekt śniegu -->
+    <div id="snow-container"></div>
 
-  <script src="{{ url_for('static', filename='snow.js') }}"></script>
+    <!-- Ikonka logowania admina -->
+    <a href="/admin" id="admin-login-btn" title="Zaloguj jako administrator">🎅</a>
+
+    <script src="script.js"></script>
 </body>
 </html>
