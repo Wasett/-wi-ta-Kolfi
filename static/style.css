@@ -47,7 +47,9 @@ button:hover {
     background-color: #ff1a1a;
 }
 
-#participants-list {
+/* 🔹 Lista uczestników — bez kropek */
+#participants-list,
+ul {
     list-style: none;
     padding: 0;
     margin-top: 20px;
@@ -56,6 +58,52 @@ button:hover {
 #participants-list li {
     font-size: 1.3em;
     margin: 5px 0;
+}
+
+/* 🔹 Styl dla napisu "wylosowałeś" z animacją */
+.draw-result {
+    font-size: 2em;          /* około 4x większy */
+    color: black;            /* czarny napis */
+    font-weight: bold;
+    display: block;          /* w nowej linii */
+    margin-top: 10px;
+    animation: reveal 1.2s ease-out forwards, sparkle 0.8s ease-out 1.2s forwards;
+    opacity: 0;
+}
+
+/* 🔹 Animacja pojawiania się napisu */
+@keyframes reveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(-10deg);
+        color: #a00;
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2) rotate(2deg);
+        color: #000;
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        color: #000;
+    }
+}
+
+/* 🔹 Animacja podskoku i lekkiego błysku po reveal */
+@keyframes sparkle {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 0px #fff;
+    }
+    50% {
+        transform: scale(1.2);
+        text-shadow: 0 0 15px #fffa;
+    }
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 5px #fff;
+    }
 }
 
 #snow-container {
