@@ -1,11 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask_sqlalchemy import SQLAlchemy
 import random
 import os
-import psycopg2
-from urllib.parse import urlparse
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey123'
+
+# ---------------- Konfiguracja bazy ----------------
+DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///results.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+# ---------------- Model dla wyników ----------------
+class DrawResult(db.Model):
+    __tablename__ = 'draw_results'
+    participant_id = db.Column(db.Integer, primary_key=True)
+    drawn_name = db.Column(db.String, nullable=False)
 
 # ---------------- Dane uczestników ----------------
 participants = [
@@ -29,77 +40,37 @@ participants = [
 ADMIN_LOGIN = 'seba'
 ADMIN_PASSWORD = 'jestok'
 
+# ---------------- Inicjalizacja bazy ----------------
+with app.app_context():
+    db.create_all()
 
-# ---------------- Konfiguracja bazy PostgreSQL ----------------
-DATABASE_URL = os.getenv('DATABASE_URL')
+# ---------------- Funkcje pomocnicze ----------------
+def get_results():
+    """Pobiera wszystkie wyniki z bazy"""
+    results = {}
+    for row in DrawResult.query.all():
+        results[row.participant_id] = row.drawn_name
+    return results
 
-def get_connection():
-    return psycopg2.connect(DATABASE_URL, sslmode="require")
-
-def init_db():
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute('''
-        CREATE TABLE IF NOT EXISTS results (
-            participant_id INTEGER PRIMARY KEY,
-            drawn_name TEXT
-        )
-    ''')
-    conn.commit()
-    cur.close()
-    conn.close()
-
-def load_results():
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute('SELECT participant_id, drawn_name FROM results')
-    rows = cur.fetchall()
-    cur.close()
-    conn.close()
-    results = {pid: name for pid, name in rows}
-    already_drawn = set(results.keys())
-    return results, already_drawn
-
-def save_result(participant_id, drawn_name):
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute('''
-        INSERT INTO results (participant_id, drawn_name)
-        VALUES (%s, %s)
-        ON CONFLICT (participant_id) DO UPDATE
-        SET drawn_name = EXCLUDED.drawn_name
-    ''', (participant_id, drawn_name))
-    conn.commit()
-    cur.close()
-    conn.close()
-
-def clear_results():
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute('DELETE FROM results')
-    conn.commit()
-    cur.close()
-    conn.close()
-
-
-# ---------------- Inicjalizacja przy starcie ----------------
-init_db()
-results, already_drawn = load_results()
-
+def get_already_drawn():
+    """Zwraca zbiór uczestników, którzy już losowali"""
+    return {row.participant_id for row in DrawResult.query.all()}
 
 # ---------------- Strona główna ----------------
 @app.route('/', methods=['GET'])
 def index():
+    already_drawn = get_already_drawn()
     available_participants = [p for p in participants if p['id'] not in already_drawn]
     if not available_participants:
         flash('Wszyscy uczestnicy już wylosowali swoje prezenty.')
     return render_template('index.html', participants=available_participants)
 
-
 # ---------------- Losowanie ----------------
 @app.route('/draw', methods=['POST'])
 def draw():
     participant_id = int(request.form['participant_id'])
+    results = get_results()
+    already_drawn = get_already_drawn()
 
     if participant_id in already_drawn:
         flash('Ten uczestnik już wylosował osobę i nie może losować ponownie.')
@@ -111,12 +82,13 @@ def draw():
         return redirect(url_for('index'))
 
     chosen_name = random.choice(possible)
-    results[participant_id] = chosen_name
-    already_drawn.add(participant_id)
-    save_result(participant_id, chosen_name)
+
+    # Zapis wyniku w bazie
+    new_result = DrawResult(participant_id=participant_id, drawn_name=chosen_name)
+    db.session.add(new_result)
+    db.session.commit()
 
     return render_template('result.html', result_name=chosen_name)
-
 
 # ---------------- Logowanie admina ----------------
 @app.route('/admin/login', methods=['GET', 'POST'])
@@ -132,7 +104,6 @@ def admin_login():
             return redirect(url_for('admin_login'))
     return render_template('admin_login.html')
 
-
 # ---------------- Panel admina ----------------
 @app.route('/admin', methods=['GET', 'POST'])
 def admin_panel():
@@ -147,6 +118,7 @@ def admin_panel():
             flash(f'Dodano uczestnika: {new_name}')
         return redirect(url_for('admin_panel'))
 
+    results = get_results()
     display_results = []
     for p in participants:
         display_results.append({
@@ -156,20 +128,17 @@ def admin_panel():
 
     return render_template('admin_panel.html', results=display_results)
 
-
 # ---------------- Resetowanie losowania ----------------
 @app.route('/admin/reset')
 def admin_reset():
     if not session.get('admin'):
         return redirect(url_for('admin_login'))
 
-    results.clear()
-    already_drawn.clear()
-    clear_results()
+    DrawResult.query.delete()
+    db.session.commit()
 
     flash('Losowanie zostało zresetowane.')
     return redirect(url_for('admin_panel'))
-
 
 # ---------------- Wylogowanie admina ----------------
 @app.route('/admin/logout')
@@ -177,7 +146,6 @@ def admin_logout():
     session.pop('admin', None)
     flash('Wylogowano administratora.')
     return redirect(url_for('index'))
-
 
 # ---------------- Uruchomienie serwera ----------------
 if __name__ == '__main__':
