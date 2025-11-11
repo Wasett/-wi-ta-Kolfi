@@ -1,12 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import random
 import os
-import json
+import psycopg2
+from urllib.parse import urlparse
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey123'
-
-RESULTS_FILE = 'results.json'
 
 # ---------------- Dane uczestników ----------------
 participants = [
@@ -31,27 +30,60 @@ ADMIN_LOGIN = 'seba'
 ADMIN_PASSWORD = 'jestok'
 
 
-# ---------------- Funkcje pomocnicze ----------------
+# ---------------- Konfiguracja bazy PostgreSQL ----------------
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+def get_connection():
+    return psycopg2.connect(DATABASE_URL, sslmode="require")
+
+def init_db():
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS results (
+            participant_id INTEGER PRIMARY KEY,
+            drawn_name TEXT
+        )
+    ''')
+    conn.commit()
+    cur.close()
+    conn.close()
+
 def load_results():
-    """Wczytuje wyniki z pliku JSON, jeśli istnieje i jest poprawny."""
-    if os.path.exists(RESULTS_FILE):
-        try:
-            with open(RESULTS_FILE, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                return data.get('results', {}), set(data.get('already_drawn', []))
-        except (json.JSONDecodeError, ValueError):
-            # Plik jest pusty lub uszkodzony — nadpisz pustym
-            return {}, set()
-    return {}, set()
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT participant_id, drawn_name FROM results')
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+    results = {pid: name for pid, name in rows}
+    already_drawn = set(results.keys())
+    return results, already_drawn
+
+def save_result(participant_id, drawn_name):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute('''
+        INSERT INTO results (participant_id, drawn_name)
+        VALUES (%s, %s)
+        ON CONFLICT (participant_id) DO UPDATE
+        SET drawn_name = EXCLUDED.drawn_name
+    ''', (participant_id, drawn_name))
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def clear_results():
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute('DELETE FROM results')
+    conn.commit()
+    cur.close()
+    conn.close()
 
 
-def save_results(results, already_drawn):
-    """Zapisuje wyniki do pliku JSON."""
-    with open(RESULTS_FILE, 'w', encoding='utf-8') as f:
-        json.dump({'results': results, 'already_drawn': list(already_drawn)}, f, ensure_ascii=False, indent=4)
-
-
-# ---------------- Wczytanie danych przy starcie ----------------
+# ---------------- Inicjalizacja przy starcie ----------------
+init_db()
 results, already_drawn = load_results()
 
 
@@ -73,7 +105,6 @@ def draw():
         flash('Ten uczestnik już wylosował osobę i nie może losować ponownie.')
         return redirect(url_for('index'))
 
-    # Lista możliwych osób do wylosowania (bez siebie i bez już wylosowanych)
     possible = [p['name'] for p in participants if p['id'] != participant_id and p['name'] not in results.values()]
     if not possible:
         flash('Brak dostępnych osób do wylosowania.')
@@ -82,9 +113,7 @@ def draw():
     chosen_name = random.choice(possible)
     results[participant_id] = chosen_name
     already_drawn.add(participant_id)
-
-    # Zapisujemy wynik losowania
-    save_results(results, already_drawn)
+    save_result(participant_id, chosen_name)
 
     return render_template('result.html', result_name=chosen_name)
 
@@ -118,7 +147,6 @@ def admin_panel():
             flash(f'Dodano uczestnika: {new_name}')
         return redirect(url_for('admin_panel'))
 
-    # Przygotowanie danych do wyświetlenia w tabeli
     display_results = []
     for p in participants:
         display_results.append({
@@ -137,7 +165,7 @@ def admin_reset():
 
     results.clear()
     already_drawn.clear()
-    save_results(results, already_drawn)
+    clear_results()
 
     flash('Losowanie zostało zresetowane.')
     return redirect(url_for('admin_panel'))
@@ -153,5 +181,5 @@ def admin_logout():
 
 # ---------------- Uruchomienie serwera ----------------
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Render ustawia PORT automatycznie
+    port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
